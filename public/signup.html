@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>LETZ MACARON</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+   
+  	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="main.css">
+     <link rel="stylesheet" href="signup_ver2.js">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
+
+    <script src="/fireinit.js">   </script>   
+</head>
+    
+    
+<style>
+body
+{
+    /*background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;*/
+    background-color: #B5E8D5;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+
+</style>
+
+    
+<!-- Button trigger modal -->
+<body>
+    <nav class="navbar navbar-fixed-top">
+		 <div class="container">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span> 
+		      </button>
+		      <a class="navbar-brand" href="index.html">LETZ MACARON</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a class="page-scroll" href="#about">ABOUT</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="groupbuying.html">BUY</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#board">BOARD</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">CONTACT</a>
+                    </li>
+                </ul>
+		      <ul class="nav navbar-nav navbar-right">
+                <li><a href="signup.html">JOIN</a></li>
+		        <li><a href="signin.html">SIGN IN</a></li>
+		        <li><a href="mypage.html">MY PAGE</a></li>
+		      </ul>
+		    </div>
+		</div>
+	</nav>
+
+
+
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+      
+            
+            <div class="wrap">
+                <p class ="put-picture" >
+                    <img src="img/nobackground/orange.png" style="width:10%">
+                </p>
+                <p class="form-title">
+                    JOIN</p>
+                
+                <form class="login">
+                <input id="INPUT_NAME" type="text" placeholder="Name" />
+                <input id="INPUT_MAIL" type="text" placeholder="Email Address"/>
+                <input id="INPUT_PASSWORD" type="password" placeholder="Password" />
+                <input id="BTN_SIGNUP" type="button" value="JOIN" class="btn button-color2 btn-sm" />
+                <input id="BTN_GOOGLE_SIGNUP"type="button" value="JOIN WITH GOOGLE" class="btn button-color2 btn-sm" />
+                
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</div>
+    
+    <script>
+        var y = document.getElementById("BTN_SIGNUP");
+       y.onclick = function () {
+            var signup_mail = $('#INPUT_MAIL').val();
+            var signup_password=$('#INPUT_PASSWORD').val();
+            var signup_name = $('#INPUT_NAME').val();
+            firebase.auth().createUserWithEmailAndPassword(signup_mail, signup_password).then(function(){
+                var user = firebase.auth().currentUser;
+                user.updateProfile({
+                    'displayName': signup_name
+                }).then(function(){
+                    alert("성공적으로 가입되었습니다.");
+                    location.reload();
+                },function(error){
+                    console.log(error);
+                    alert(error.message);
+                });
+                
+                
+                
+            }).catch(function(error) {
+                  
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                  // ...
+                alert(errorMessage);
+            });
+
+        };
+    
+    </script>
+    
+      
+    <script type="text/javascript">
+        var x = document.getElementById("BTN_GOOGLE_SIGNUP");
+        x.onclick = function () {
+            var provider= new firebase.auth.GoogleAuthProvider();
+            console.log(provider);
+            firebase.auth().signInWithPopup(provider).then(function(result){
+              alert(result.user.displayName + "님 성공적으로 가입되셨습니다.");
+                location.reload();
+            }).catch(function(error){
+                alert(error.message)
+            });
+        };
+
+    </script>
+
+</body>
+
+</html>

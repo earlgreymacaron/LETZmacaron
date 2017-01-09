@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+	<title>LETZ MACARON</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+   
+  	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="main.css">
+     <link rel="stylesheet" href="signup_ver2.js">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
+
+    <script src="/fireinit.js">   </script>   
+ 
+</head>
+<style>
+ /* CSS Optional - Only added for benifit of Bootsnipp Output */
+body{padding-top:40px;
+     background-color: #C6D6F7;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+    }
+       
+</style>    
+   
+    <body>
+    <nav class="navbar navbar-fixed-top">
+		 <div class="container">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span> 
+		      </button>
+		      <a class="navbar-brand" href="index.html">LETZ MACARON</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a class="page-scroll" href="#about">ABOUT</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="groupbuying.html">BUY</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="board.html">BOARD</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">CONTACT</a>
+                    </li>
+                </ul>
+		      <ul class="nav navbar-nav navbar-right">
+                <li><a href="signup.html">JOIN</a></li>
+		        <li><a href="signin.html">SIGN IN</a></li>
+		        <li><a href="mypage.html">MY PAGE</a></li>
+		      </ul>
+		    </div>
+		</div>
+	</nav>
+        
+           <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+      
+            
+            <div class="wrap">
+                <p class ="put-picture" >
+                    <img src="img/nobackground/pink.png" style="width:10%">
+                </p>
+                <p class="form-title">BOARD</p>
+                    <hr>
+                
+                    <div class="row">
+                    <div class='row'>
+                        <div class='col-sm-8 col-sm-offset-2'>
+                           
+                                    <div class='row'>
+                                            <div class='form-group col-sm-8'>
+                                                <label for='title'>Title</label>
+                                                <input id="TITLE" type='text' name='title' class='form-control' />
+                                            </div>
+                                            <div class='form-group col-sm-4'>
+                                                <label for='fname'>Author</label>
+                                                <input id="AUTHOR" type='text' name='fname' class='form-control' />
+                                            </div>
+
+
+                                        <div class='col-sm-12'>
+                                            <div class='form-group '>
+                                                <label for='text'>Text</label>
+                                                <textarea id="TEXT" class='form-control' name='text' rows='12'></textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                <div class='text-center'>
+                                    <input id="SUBMIT" type='button' class='btn btn-primary' value='Submit' onclick="submitClick()"  />
+                                    <a href="board.html"><input id="BACK" type='button' class='btn btn-default' value='BACK' /></a>
+                                    
+                                </div>
+                           
+                        </div>
+                    </div>
+        </div>
+                
+         
+                
+                
+                
+                
+                
+    </div>
+
+</div>
+
+    <script>
+        var title1 = document.getElementById("TITLE");
+        var author1 = document.getElementById("AUTHOR");
+        var text1 = document.getElementById("TEXT");
+
+        function submitClick() {
+            window.alert("게시물이 등록되었습니다.");
+            var time1 = new Date().getTime();
+            firebase.database().ref('board/'+title1.value).set({
+                title : title1.value,
+                author: author1.value,
+                text : text1.value,
+                timestamp : time1
+            });
+            firebase.database().ref().child('alarms').push().set({
+                type : "bulletin",
+                content: author1.value + "님이 게시판에 글을 올렸습니다."
+            });
+            
+        }
+    
+    </script>     
+        
+
+        
+        
+        
+    </body>
+
+    
+    
+</html>
