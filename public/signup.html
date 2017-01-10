@@ -19,6 +19,8 @@
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
 
+    <script src="/fireinit.js">   </script>
+
 </head>
     
     
@@ -82,51 +84,48 @@ body
                 </p>
                 <p class="form-title">
                     JOIN</p>
-                
+
+                <!-- JOIN form starts -->
                 <form class="login">
                 <input id="INPUT_NAME" type="text" placeholder="Name (실명필수)" />
                 <input id="INPUT_MAIL" type="text" placeholder="Email Address"/>
                 <input id="INPUT_PASSWORD" type="password" placeholder="Password" />
-                <input id="BTN_SIGNUP" type="button" value="JOIN" class="btn button-color2 btn-sm" />
+                <input id="BTN_SIGNUP" type="button" value="JOIN" class="btn button-color2 btn-sm" onclick="newJOIN()" />
                 <input id="BTN_GOOGLE_SIGNUP"type="button" value="JOIN WITH GOOGLE" class="btn button-color2 btn-sm" />
-                
                 </form>
+
+
             </div>
         </div>
     </div>
     
 </div>
 
-    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
     <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyDOdNjI_ZiKAIWoJEw6rSOjZ92ekxUDyUk",
-            authDomain: "macaron-9eb97.firebaseapp.com",
-            databaseURL: "https://macaron-9eb97.firebaseio.com",
-            storageBucket: "macaron-9eb97.appspot.com",
-            messagingSenderId: "106137658409"
-        };
-        firebase.initializeApp(config);
 
-        var y = document.getElementById("BTN_SIGNUP");
-        y.onclick = function () {
-            var signup_mail = $('#INPUT_MAIL').val();
-            var signup_password=$('#INPUT_PASSWORD').val();
+       function newJOIN() {
+           var signup_mail = $('#INPUT_MAIL').val();
+           var signup_password = $('#INPUT_PASSWORD').val();
+           var signup_name = $('#INPUT_NAME').val();
             firebase.auth().createUserWithEmailAndPassword(signup_mail, signup_password).then(function(){
                 alert("성공적으로 가입되었습니다.");
                 var user = firebase.auth().currentUser;
-                // var db = firebase.database();
-                var signup_name = $('#INPUT_NAME').val();
-                add2DB(signup_name,user.email,user.uid);
-                location.reload();
+                firebase.database().ref('members/'+ user.uid).set({
+                    name : signup_name,
+                    email : signup_mail,
+                    uid : user.uid
+                });
+                firebase.database().ref().child('alarms').push().set({
+                    type : "register",
+                    content: signup_name + "님이 LETZ macaron에 회원가입하셨습니다."
+                });
             }).catch(function(error) {
                   var errorCode = error.code;
                   var errorMessage = error.message;
                   alert(errorMessage);
             });
 
-        };
+       }
         function add2DB(name,email,uid) {
             firebase.database().ref().child('alarms').push().set({
                 type : "register",
@@ -157,5 +156,4 @@ body
     </script>
 
 </body>
-
 </html>
