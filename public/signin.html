@@ -38,7 +38,7 @@ body
     
 <!-- Button trigger modal -->
 <body>
-    <nav class="navbar navbar-fixed-top">
+    <nav class="navbar navbar-fixed">
 		 <div class="container">
 		    <div class="navbar-header">
 		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -46,29 +46,23 @@ body
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span> 
 		      </button>
-                
-		      <a class="navbar-brand" href="index.html">LETZ MACARON
-                </a>
 		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-left">
-                    <li>
-                        <a class="page-scroll" href="#about">ABOUT</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="groupbuying.html">BUY</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="board.html">BOARD</a>
-                    </li>
+             <div class="collapse navbar-collapse" id="myNavbar">
 
-                </ul>
-		      <ul class="nav navbar-nav navbar-right">
-                <li><a href="signup.html">JOIN</a></li>
-		        <li><a href="signin.html">SIGN IN</a></li>
-		        <li><a href="mypage.html">MY PAGE</a></li>
-		      </ul>
-		    </div>
+
+                 <ul class="nav navbar-nav navbar-left">
+                     <li>
+                         <a class="page-scroll" href="index.html"><img src="img/logo/logo2.png"  style="width:100%"alt="MACARON"></a>
+                     </li>
+                     <li> <a class="page-scroll" href="index.html">ABOUT</a> </li>
+                     <li><a class="page-scroll" href="groupbuying.html">BUY</a></li>
+                     <li><a class="page-scroll" href="board.html">BOARD</a></li>
+                     <li><a class="page-scroll" href="signup.html">JOIN</a></li>
+                     <li><a id="signin_top" class="page-scroll" href="signin.html">SIGN IN</a></li>
+                     <li><a class="page-scroll" href="mypage.html">MY PAGE</a></li>
+
+                 </ul>
+             </div>
 		</div>
 	</nav>
 	
@@ -93,7 +87,7 @@ body
                     <img src="img/nobackground/pink.png" style="width:10%">
                 </p>
                 <p class="form-title">
-                    Sign IN</p>
+                    SIGN IN</p>
                 <form class="login">
                 <input id="SIGNIN_EMAIL" type="text" placeholder="Email Address" />
                 <input id="SIGNIN_PASSWORD" type="password" placeholder="Password" />
@@ -132,7 +126,8 @@ body
            
             firebase.auth().signInWithEmailAndPassword(signin_mail, signin_password).then(function(){
                  alert("로그인되었습니다.");
-                  location.reload();
+                 document.getElementById("signin_top").innerHTML = "SIGN OUT";
+                 location.reload();
                 
             }).catch(function(error) {
                   
@@ -153,7 +148,6 @@ body
             var provider= new firebase.auth.GoogleAuthProvider();
             console.log(provider);
             firebase.auth().signInWithPopup(provider).then(function(result){
-               
               alert(result.user.displayName + "님 로그인되었습니다.");
                 location.reload();
             }).catch(function(error){

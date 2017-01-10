@@ -1,65 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Macaron Together</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LETZ MACARON</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    
     <link rel="stylesheet" href="signup_ver2.js">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
+
+    <script src="/fireinit.js">   </script>
 </head>
     
     
 <style>
 body
 {
-    /*background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;*/
+    
     background-color: #C6D6F7;
 	color: #ffffff;
     background-size: cover;
     padding: 0;
     margin: 0;
 }
+    
+
 
 </style>
 
     
 <!-- Button trigger modal -->
 <body>
-    <nav class="navbar navbar-fixed-top">
-		 <div class="container">
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span> 
-		      </button>
-		      <a class="navbar-brand" href="index.html">LETZ MACARON</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-left">
-                    <li>
-                        <a class="page-scroll" href="#about">ABOUT</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="groupbuying.html">BUY</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="board.html">BOARD</a>
-                    </li>
+<nav class="navbar navbar-fixed">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
 
-                </ul>
-		      <ul class="nav navbar-nav navbar-right">
-                <li><a href="signup.html">JOIN</a></li>
-		        <li><a href="signin.html">SIGN IN</a></li>
-		        <li><a href="mypage.html">MY PAGE</a></li>
-		      </ul>
-		    </div>
-		</div>
-	</nav>
+
+            <ul class="nav navbar-nav navbar-left">
+                <li>
+                    <a class="page-scroll" href="index.html"><img src="img/logo/logo2.png"  style="width:100%"alt="MACARON"></a>
+                </li>
+                <li> <a class="page-scroll" href="index.html">ABOUT</a> </li>
+                <li><a class="page-scroll" href="groupbuying.html">BUY</a></li>
+                <li><a class="page-scroll" href="board.html">BOARD</a></li>
+                <li><a class="page-scroll" href="signup.html">JOIN</a></li>
+                <li><a class="page-scroll" href="signin.html">SIGN IN</a></li>
+                <li><a class="page-scroll" href="mypage.html">MY PAGE</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
 	
 
 
@@ -81,13 +89,69 @@ body
                     <img src="img/nobackground/beige.png" style="width:10%">
                 </p>
                 <p class="form-title">MY PAGE</p>
+                
+                <div class="container-fluid bg-3 text-center">    
+              <h2 id='status' class="margin">Thank you for ordering. Your Macaron is now</h2><br>
+              <h1 id='pricce' class="margin"> Wait for a minute. </h1><br>
             
             </div>
+            
+            
         </div>
     </div>
+        
+        
     
 </div>
+    
+    
+    
+     <script>
+         
+            
+            var query = firebase.database().ref("/events").orderByKey();
+            query.once("value").then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var key = childSnapshot.key;
+                    var childData = childSnapshot.val();
+                    document.getElementById("status").innerHTML="Thank you for ordering. Your macaron order status is now " +String(childData.status);
+                    
+                 });       
+            });
 
+
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    var stri = user.uid;
+                    var qquery = firebase.database().ref("/orders").orderByKey();
+                    qquery.once("value").then(function(snapshot){
+                        snapshot.forEach(function(childSnapshot) {
+                            var compareuid = childSnapshot.val().uid;
+                            if(compareuid == stri){
+                                var keyval = childSnapshot.key;
+                                document.getElementById("pricce").innerHTML="Please send ₩" +String(keyval) + " to 우리은행 1002-051-678359";
+                            }
+                        });
+
+                    })
+                } else {
+                    // No user is signed in.
+                }
+            });
+           //var user = firebase.auth().currentUser.uid;
+           //var stri = user.uid;
+           
+
+            
+                     
+
+            </script>
+		
+
+ 
+ 
+    
+    
 </body>
 
 </html>

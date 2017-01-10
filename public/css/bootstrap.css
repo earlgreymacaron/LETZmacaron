@@ -3687,6 +3687,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .navbar-fixed-bottom .navbar-collapse {
     padding-right: 0;
     padding-left: 0;
+    margin-top: 20px;
   }
 }
 .container > .navbar-header,
@@ -3717,6 +3718,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-fixed-top,
 .navbar-fixed-bottom {
   position: fixed;
+
   right: 0;
   left: 0;
   z-index: 1030;
