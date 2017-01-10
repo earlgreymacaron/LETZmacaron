@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+	<title>LETZ MACARON</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+   
+  	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="main.css">
+     <link rel="stylesheet" href="signup_ver2.js">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
+
+    <script src="/fireinit.js">   </script>  
+     <script>
+        
+
+            
+       
+            
+        </script>  
+        
+ 
+</head>
+<style>
+
+body{padding-top:40px;
+     background-color: #C6D6F7;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+    }
+    
+    .boardnavbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    
+}
+       
+</style>    
+   
+    <body>
+    <nav class="navbar navbar-fixed-top">
+		 <div class="container">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span> 
+		      </button>
+		      <a class="navbar-brand" href="index.html">LETZ MACARON</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a class="page-scroll" href="#about">ABOUT</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="groupbuying.html">BUY</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="board.html">BOARD</a>
+                    </li>
+                </ul>
+		      <ul class="nav navbar-nav navbar-right">
+                <li><a href="signup.html">JOIN</a></li>
+		        <li><a href="signin.html">SIGN IN</a></li>
+		        <li><a href="mypage.html">MY PAGE</a></li>
+		      </ul>
+		    </div>
+		</div>
+	</nav>
+        
+           <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+      
+            
+            <div class="wrap">
+                <p class ="put-picture" >
+                    <img src="img/nobackground/pink.png" style="width:10%">
+                </p>
+                <p class="form-title">BOARD</p>
+                    <hr>
+                    <hr>
+    
+                   <div id="letsdo">
+                     </div>
+                
+                            <div>
+                        <script>
+                
+                        var str="";
+                        var count =1;
+                        var query = firebase.database().ref("/board/").orderByKey();
+                        query.once("value").then(function(snapshot) {
+                        snapshot.forEach(function(childSnapshot) {
+                      // key will be "ada" the first time and "alan" the second time
+                        var key = childSnapshot.key;
+                      // childData will be the actual contents of the child
+                        var childData = childSnapshot.val();
+                        var texting = String(childData.body);
+                        var imauthor = String(childData.author);
+                        var date = new Date(Number(childData.timestamp));
+                        var year = date.getYear() + 1900;
+                        var month =  "0"+String(date.getMonth()+1) ;
+                        var day = date.getDate();
+                        var hours = date.getHours();
+                        var minutes = "0" + date.getMinutes();
+                        var seconds = "0" + date.getSeconds();
+                        var formattedTime =  "작성시간: " + year + "/" + month.substr(-2) + "/" + day +" " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2) +"  ";
+                        var time = String(formattedTime);
+                        //data.push(String(key));
+                        //texts.push(String(childData.text));
+                       str+= "<div class=\"panel-group\"><div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a class='boardnavbar' data-toggle=\"collapse\" href=\"#collapse"+String(count)+"\">"+String(key)+"</a></h4> </div> <div id=\"collapse"+String(count)+"\" class=\"panel-collapse collapse\"> <div class='text-right'>"+time+"</div><div id=\"writing1\" class=\"panel-footer\">"+texting+"</div></div></div></div>"
+                       count++;
+                        //document.getElementById("demo1").innerHTML= data[0];
+                       // document.getElementById("writing1").innerHTML= texts[0];
+                        // document.getElementById("demo2").innerHTML= data[1];
+                       //document.getElementById("writing2").innerHTML= texts[1];
+                       document.getElementById("letsdo").innerHTML=str;
+                          
+                        
+                  });
+                            
+                            
+                });
+                  
+
+            </script>
+               
+            
+                
+               
+                     <div class='text-center'> <a href=write.html><button>WRITE</button></a></div>
+    
+            </div>
+
+        </div>
+   </div>
+</div>
+        
+   
+       
+        
+        
+        
+        
+    </body>
+
+    
+    
+</html>

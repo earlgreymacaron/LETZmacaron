@@ -55,9 +55,6 @@ body{padding-top:40px;
                     <li>
                         <a class="page-scroll" href="board.html">BOARD</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">CONTACT</a>
-                    </li>
                 </ul>
 		      <ul class="nav navbar-nav navbar-right">
                 <li><a href="signup.html">JOIN</a></li>
@@ -114,11 +111,7 @@ body{padding-top:40px;
                     </div>
         </div>
                 
-         
-                
-                
-                
-                
+
                 
     </div>
 
@@ -135,7 +128,7 @@ body{padding-top:40px;
             firebase.database().ref('board/'+title1.value).set({
                 title : title1.value,
                 author: author1.value,
-                text : text1.value,
+                body : text1.value,
                 timestamp : time1
             });
             firebase.database().ref().child('alarms').push().set({
