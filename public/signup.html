@@ -107,15 +107,20 @@ body
             firebase.auth().createUserWithEmailAndPassword(signup_mail, signup_password).then(function(){
                 alert("성공적으로 가입되었습니다.");
                 var user = firebase.auth().currentUser;
-                firebase.database().ref('members/'+ user.uid).set({
-                    name : signup_name,
-                    email : signup_mail,
-                    uid : user.uid
-                });
-                firebase.database().ref().child('alarms').push().set({
-                    type : "register",
-                    content: signup_name + "님이 LETZ macaron에 회원가입하셨습니다."
-                });
+                var signup_name = $('#INPUT_NAME').val();
+                user.updateProfile({
+                    displayName: signup_name
+                }).then(function() {
+                    firebase.database().ref('members/'+ user.uid).set({
+                        name : signup_name,
+                        email : signup_mail,
+                        uid : user.uid
+                    });
+                    firebase.database().ref().child('alarms').push().set({
+                        type : "register",
+                        content: signup_name + "님이 LETZ macaron에 회원가입하셨습니다."
+                    });
+                }, function(error) { });
             }).catch(function(error) {
                   var errorCode = error.code;
                   var errorMessage = error.message;
